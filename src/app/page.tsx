@@ -1,65 +1,70 @@
-import Image from "next/image";
+import { stats, monthlyRevenue, userGrowth, recentTransactions } from "@/data/mockData";
+import StatCard from "../components/StatsCard";
+import RevenueChart from "@/components/RevenueChart";
+import UserGrowthChart from "@/components/UserGrowthChart";
 
-export default function Home() {
+
+export default function DashboardPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-green-900">Dashboard Overview</h1>
+        <p className="text-gray-400 mt-1">Welcome back, Azeez 👋</p>
+      </div>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat, index) => (
+          <StatCard key={index} stat={stat} />
+        ))}
+      </div>
+
+      {/* Charts will go here */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white border rounded-lg p-6">
+          <h2 className="text-green-800 font-semibold mb-4">Monthly Revenue</h2>
+          <RevenueChart />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="bg-white border  rounded-lg p-6">
+          <h2 className="text-green-800 font-semibold mb-4">User Growth</h2>
+          <UserGrowthChart />
         </div>
-      </main>
+      </div>
+
+      {/* Recent Transactions */}
+      <div className="bg-white border rounded-lg p-6 overflow-x-auto">
+        <h2 className="bg-green-800 text-white p-2 rounded-2xl font-semibold mb-4">Recent Transactions</h2>
+        <table className="w-full">
+          <thead>
+            <tr className="text-gray-600 text-xs md:text-sm border-b border-gray-300">
+              <th className="text-left pb-3">Name</th>
+              <th className="text-left pb-3 hidden md:table-cell">Email</th>
+              <th className="text-left pb-3">Amount</th>
+              <th className="text-left pb-3">Status</th>
+              <th className="text-left pb-3 hidden md:table-cell">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentTransactions.slice(0, 5).map((tx) => (
+              <tr key={tx.id} className="border-b border-gray-300 text-sm">
+                <td className="py-3 text-green-700">{tx.name.split(" ")[0]}</td>
+                <td className="py-3 text-gray-400 hidden md:table-cell">{tx.email.split("@")[0].slice(0, 1)}...@..{tx.email.split("@")[1].slice(-3)}</td>
+                <td className="py-3 text-green-700">₦{tx.amount.toLocaleString()}</td>
+                <td className="py-3">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    tx.status === "completed" ? "bg-green-900 text-green-400" :
+                    tx.status === "pending" ? "bg-yellow-900 text-yellow-400" :
+                    "bg-red-900 text-red-400"
+                  }`}>
+                    {tx.status}
+                  </span>
+                </td>
+                <td className="py-3 text-gray-400 hidden md:table-cell">{tx.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
