@@ -2,7 +2,12 @@ import { stats, monthlyRevenue, userGrowth, recentTransactions } from "@/data/mo
 import StatCard from "../components/StatsCard";
 import RevenueChart from "@/components/RevenueChart";
 import UserGrowthChart from "@/components/UserGrowthChart";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Dashboard | Home Page",
+  description: "Dashboard home page",
+};
 
 export default function DashboardPage() {
   return (

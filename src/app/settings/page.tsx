@@ -1,5 +1,11 @@
 'use client'
 import { useState } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard | Settings",
+  description: "Update your dashboard settings",
+};
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState({
