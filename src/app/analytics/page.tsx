@@ -1,12 +1,7 @@
 import TrafficChart from "@/components/TrafficChart";
 import WeeklySalesChart from "@/components/WeeklySalesChart";
 import { trafficSources, weeklySales } from "@/data/mockData";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Dashboard Analytics",
-  description: "Analytics page with filter",
-};
 
 export default function AnalyticsPage() {
   const totalTraffic = trafficSources.reduce((sum, source) => sum + source.value, 0);

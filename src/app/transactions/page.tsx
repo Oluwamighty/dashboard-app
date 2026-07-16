@@ -1,12 +1,8 @@
 'use client';
 import { useState } from "react";
 import { recentTransactions } from "@/data/mockData";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Transactions",
-  description: "All transactions page",
-};
+
 
 export default function TransactionsPage(){
     const [search, setSearch] = useState('');
